@@ -1,0 +1,6 @@
+clone this repository:
+---turtlebot3_simulations
+---rosserial arduino
+
+
+add .stl/.dae file at aka_robot_description/meshes/
