@@ -72,7 +72,7 @@ Kinematics::velocities Kinematics::getVel(float motor_left, float motor_right)
   avg_rpm_a = (float)(motor_right - motor_left) / 2;    
   //convert rpm to revolutions per second
   avg_rps_a = avg_rpm_a / 60;
-  vel.angular_z = (avg_rps_a * circumference_) / (wheel_dist_ / 2); // rad/s
+  vel.angular_z = (avg_rps_a * circumference_) / (wheel_dist_ / 2);
 
   return vel;
 
@@ -83,11 +83,4 @@ int Kinematics::rpmToPWM(int rpm)
   //remap scale of target RPM vs MAX_RPM to PWM
   return (((float) rpm / (float) max_rpm_) * pwm_res_);
 }
-
-
-
-
-
-
-
 
