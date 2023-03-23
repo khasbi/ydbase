@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<launch>
+    <arg name="model" default="$(find aka_robot_description)/urdf/ydbase.urdf.xacro" />
+
+    <param name="robot_description" command="$(find xacro)/xacro '$(arg model)'" />
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+    
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+    
+    <node name="serial_node" pkg="rosserial_python" type="serial_node.py">
+        <param name="port" value="/dev/ttyUSB1"/>
+    </node>
+
+    <node name="aka_controller" pkg="aka_robot_controller" type="aka_controller" />
+
+    <include file = "$(find rplidar_ros)/launch/rplidar.launch"/>
+
+    <node pkg="laser_filters" type="scan_to_scan_filter_chain" output="screen" name="laser_filter">
+    <!--remap from="/scan_filtered" to="/scan" /-->
+        <rosparam command="load" file="$(find laser_filters)/examples/angle_filter_example.yaml" />
+    </node>
+
+    <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find aka_robot_description)/rviz/visualize.rviz"/> -->
+</launch>
