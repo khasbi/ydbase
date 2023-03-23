@@ -1,0 +1,23 @@
+<launch>
+    <!-- Arguments -->
+    <arg name="model" default="$(find aka_robot_description)/urdf/ydbase.urdf.xacro" />
+    <arg name="set_base_frame" default="base_footprint"/>
+    <arg name="set_odom_frame" default="odom"/>
+    <arg name="set_map_frame"  default="map"/>
+  
+    <param name="robot_description" command="$(find xacro)/xacro '$(arg model)'" />
+
+    <!-- Gmapping -->
+    <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+      <param name="base_frame" value="$(arg set_base_frame)"/>
+      <param name="odom_frame" value="$(arg set_odom_frame)"/>
+      <param name="map_frame"  value="$(arg set_map_frame)"/>
+      <!-- <remap from="/scan" to="/scan_filtered"/> -->
+      <rosparam command="load" file="$(find aka_robot_navigation)/config/gmapping_params.yaml" />
+    </node>
+
+
+    <!-- Rviz -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find aka_robot_description)/rviz/visualize.rviz"/>
+  </launch>
+  
